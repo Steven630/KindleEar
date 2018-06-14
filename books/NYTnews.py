@@ -143,6 +143,8 @@ class NYTChina(BaseFeedBook):
             re.compile('^css-l9vd'),
             re.compile('^ResponsiveAd'),
             re.compile('^styles-shareNetworks'),
+            re.compile('^css-30n6iy'),
+            re.compile('^ResponsiveMedia-credit'),
             'lede-container',
             'credit',
             'caption-video',
@@ -287,4 +289,6 @@ class NYTChina(BaseFeedBook):
             'whats-next',
             'newsletter-promo',
         ]),
-        dict(name=['script', 'noscript', 'style', 'form', 'hr', 'button', 'meta', 'footer'])]
+        dict(name=['script', 'noscript', 'style', 'form', 'hr', 'button', 'meta', 'footer']),
+        dict(name='span', string='image')
+    ]
