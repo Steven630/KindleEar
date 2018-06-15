@@ -8,7 +8,7 @@ def getBook():
     
 
 class Classicalt(BaseFeedBook):
-    title                 =  u'古代小说网'
+    title                 =  u'古代小说网sohu'
     description           =  u'刊发中国古代小说、戏曲、说唱、文史哲方面的文章'
     language              = 'zh-cn'
     feed_encoding         = "utf-8"
@@ -46,7 +46,7 @@ class Classicalt(BaseFeedBook):
             timestamp = article.find('div', class_='wrap_mark')
             span= timestamp.find('span')
             timestamp = string_of_tag(span).strip()
-            if u'今天' not in timestamp and u'昨天' not in timestamp::
+            if u'今天' not in timestamp and u'昨天' not in timestamp:
                 continue
             div = article.find('div', class_='wrap_title')
             a = span.find('a', href=True)
