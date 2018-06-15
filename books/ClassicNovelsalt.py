@@ -56,8 +56,8 @@ class Classicalt(BaseFeedBook):
                 continue
             url = a['href']
             if url.startswith('/'):
-            url = 'http:' + url
-            urls.append((u'古代小说网',title,url,None))
+                url = 'http:' + url
+            urls.append((u'古代小说网sohu',title,url,None))
         if len(urls) == 0:
             self.log.warn('len of urls is zero.')
         return urls
