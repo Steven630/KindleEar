@@ -9,7 +9,7 @@ def getBook():
     
 
 def fetch_cover(self):
-    mainurl = 'http://www.economist.com/printedition'
+    mainurl = 'https://www.economist.com/printedition'
     opener = URLOpener(None, timeout=180)
 #    opener = URLOpener(self.host, timeout=90)
     result = opener.open(mainurl)
@@ -64,12 +64,12 @@ class TheEconomist(BaseFeedBook):
     ]
     remove_attributes = ['data-reactid']
     feeds = [
-            ('Index', 'http://www.economist.com/printedition'),
+            ('Index', 'https://www.economist.com/printedition'),
            ]
     
     def ParseFeedUrls(self):
         #return list like [(section,title,url,desc),..]
-        main = 'http://www.economist.com/printedition'
+        main = 'https://www.economist.com/printedition'
         urls = []
         urladded = set()
         opener = URLOpener(self.host, timeout=90)
@@ -107,7 +107,7 @@ class TheEconomist(BaseFeedBook):
                     title = string_of_tag(node).strip()
                 url = node['href']
                 if url.startswith(r'/'):
-                    url = 'http://www.economist.com' + url
+                    url = 'https://www.economist.com' + url
                     #self.log.info('\tFound article:%s' % title)
                     if url not in urladded:
                         urls.append((sectitle,title,url,None))
