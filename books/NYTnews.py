@@ -155,6 +155,7 @@ class NYTChina(BaseFeedBook):
             'SectionBarShare-shareMenu--2ndEi SectionBarShare-toneNews--1a-Gj SectionBarShare-bottom--3ONdV'
     ]
     remove_tags = [
+        dict(name='span', string='image'),
         dict(attrs={'class': [
             'articleFooter',
             'articleTools',
