@@ -47,8 +47,8 @@ class Reuters(BaseFeedBook):
         soup = BeautifulSoup(content, "lxml")
         
         #开始解析
-        sect=soup.find('section', attrs={'class':'module-content'})
-        for feature in sect.find_all('div', attrs={'class':'story'}):
+        sect=soup.find('section', attrs={'class':'news-headline-list  '})
+        for feature in sect.find_all('div', attrs={'class':'story '}):
             timestamp = feature.find('span', attrs={'class':'timestamp'})
             if not timestamp:
                 continue
