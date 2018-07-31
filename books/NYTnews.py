@@ -145,6 +145,9 @@ class NYTChina(BaseFeedBook):
             re.compile('^styles-shareNetworks'),
             re.compile('^css-30n6iy'),
             re.compile('^ResponsiveMedia-credit'),
+            'css-1y7ysfx',
+            'css-y8aj3r',
+            'css-1ahraz5',
             'lede-container',
             'credit',
             'caption-video',
@@ -155,6 +158,7 @@ class NYTChina(BaseFeedBook):
             'SectionBarShare-shareMenu--2ndEi SectionBarShare-toneNews--1a-Gj SectionBarShare-bottom--3ONdV'
     ]
     remove_tags = [
+        dict(name='div', role='toolbar'),
         dict(name='span', string='image'),
         dict(attrs={'class': [
             'articleFooter',
