@@ -29,7 +29,7 @@ class Reuters(BaseFeedBook):
     remove_classes = [ re.compile('^DPSlot'), re.compile('^Attribution'), 'StandardArticleBody_trustBadgeContainer_1gqgJ','Slideshow_count_3OPtf',
                        re.compile('^RelatedCoverage'), re.compile('^Slideshow'), re.compile('^Video_container'), re.compile('^PrimaryAsset_container'),
                        re.compile('^trustBadgeContainer'), re.compile('^inline-container'), re.compile('^related-coverage'), 
-                       re.compile('^attribution_')
+                       re.compile('^attribution_'),'StandardArticleBody_trustBadgeContainer'
                      ]
     
     def ParseFeedUrls(self):
@@ -99,5 +99,6 @@ class Reuters(BaseFeedBook):
     .module-caption {font-style: italic}
     h3 {font-size: medium; font-weight: bold}
     figcaption {font-style: italic}
+    .Image_caption {font-style: italic}
     .caption_KoNH1 {font-style: italic}
     '''
