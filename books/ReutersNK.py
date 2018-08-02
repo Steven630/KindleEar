@@ -24,17 +24,17 @@ class Reuters(BaseFeedBook):
     keep_image            =  False
     keep_only_tags = [
                       dict(name='h1'),
-                      dict(attrs={'class':'body_1gnLA'})
+                      dict(attrs={'class':'StandardArticleBody_body'})
                      ]
     remove_classes = [ re.compile('^DPSlot'), re.compile('^Attribution'), 'StandardArticleBody_trustBadgeContainer_1gqgJ','Slideshow_count_3OPtf',
                        re.compile('^RelatedCoverage'), re.compile('^Slideshow'), re.compile('^Video_container'), re.compile('^PrimaryAsset_container'),
                        re.compile('^trustBadgeContainer'), re.compile('^inline-container'), re.compile('^related-coverage'), 
-                       re.compile('^attribution_')
+                       re.compile('^attribution_'),'StandardArticleBody_trustBadgeContainer'
                      ]
     
     def ParseFeedUrls(self):
         #return lists like [(section,title,url,desc),..]
-        main = 'https://www.reuters.com/north-korea'
+        main = 'https://www.reuters.com/news/archive/north-korea'
         urls = []
         isEST = False #判断是EST还是EDT
         opener = URLOpener(self.host, timeout=90)
@@ -47,8 +47,8 @@ class Reuters(BaseFeedBook):
         soup = BeautifulSoup(content, "lxml")
         
         #开始解析
-        sect=soup.find('section', attrs={'class':'news-headline-list  '})
-        for feature in sect.find_all('div', attrs={'class':'story '}):
+        sect=soup.find('section', attrs={'class':'module-content'})
+        for feature in sect.find_all('div', attrs={'class':'story-content'}):
             timestamp = feature.find('span', attrs={'class':'timestamp'})
             if not timestamp:
                 continue
@@ -87,5 +87,6 @@ class Reuters(BaseFeedBook):
     .module-caption {font-style: italic}
     h3 {font-size: medium; font-weight: bold}
     figcaption {font-style: italic}
+    .Image_caption {font-style: italic}
     .caption_KoNH1 {font-style: italic}
     '''
