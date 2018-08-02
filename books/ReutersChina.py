@@ -24,12 +24,12 @@ class ReutersChinaN(BaseFeedBook):
     
     keep_only_tags = [
                       dict(name='h1'),
-                      dict(attrs={'class':'body_1gnLA'})
+                      dict(attrs={'class':'StandardArticleBody_body'})
                      ]
     remove_classes = [ re.compile('^DPSlot'), re.compile('^Attribution'), 'StandardArticleBody_trustBadgeContainer_1gqgJ','Slideshow_count_3OPtf',
                        re.compile('^RelatedCoverage'), re.compile('^Slideshow'), re.compile('^Video_container'), re.compile('^PrimaryAsset_container'),
                        re.compile('^trustBadgeContainer'), re.compile('^inline-container'), re.compile('^related-coverage'), 
-                       re.compile('^attribution_')
+                       re.compile('^attribution_'),'StandardArticleBody_trustBadgeContainer'
                      ]
     
     def ParseFeedUrls(self):
@@ -47,8 +47,8 @@ class ReutersChinaN(BaseFeedBook):
         soup = BeautifulSoup(content, "lxml")
         
         #开始解析           
-        for item in soup.find_all('div', attrs={'class':'image-story-container_2baSf'}):
-            timestamp = item.find('span', attrs={'class':'date-updated_1EZPz'})
+        for item in soup.find_all('div', attrs={'class':'BasicStoryTemplate_basic-story-container'}):
+            timestamp = item.find('span', attrs={'class':'FeedItemMeta_date-updated'})
             if not timestamp:
                 continue
             timestamp = string_of_tag(timestamp).strip()
@@ -75,5 +75,6 @@ class ReutersChinaN(BaseFeedBook):
     .module-caption {font-style: italic}
     h3 {font-size: medium; font-weight: bold}
     figcaption {font-style: italic}
+    .Image_caption {font-style: italic}
     .caption_KoNH1 {font-style: italic}
     '''
