@@ -51,7 +51,8 @@ class Bookreview(BaseFeedBook):
         
         #开始解析
         for article in soup.find_all('div', class_='news_li', limit=6):
-            timestamp = article.find('span')
+            inter = article.find('div', class_='pdtt_trbs')
+            timestamp = inter.find('span')
             timestamp = string_of_tag(timestamp).strip()
             if u'天' in timestamp or u'-' in timestamp:
                 continue
