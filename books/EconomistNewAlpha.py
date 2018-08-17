@@ -14,7 +14,7 @@ def url4forwarder(self, url):
     
 
 def fetch_cover(self):
-    mainurl = 'https://www.economist.com/printedition'
+    mainurl = 'http://www.economist.com/printedition'
     # Did you block me?
     mainurl = self.url4forwarder(mainurl)
     opener = URLOpener(None, timeout=180)
@@ -72,7 +72,7 @@ class TheEconomist(BaseFeedBook):
     ]
     remove_attributes = ['data-reactid']
     feeds = [
-            ('Index', 'https://www.economist.com/printedition'),
+            ('Index', 'http://www.economist.com/printedition'),
            ]
     
     def url4forwarder(self, url):
@@ -81,7 +81,7 @@ class TheEconomist(BaseFeedBook):
     
     def ParseFeedUrls(self):
         #return list like [(section,title,url,desc),..]
-        main = 'https://www.economist.com/printedition'
+        main = 'http://www.economist.com/printedition'
         # Did you block me?
         main = self.url4forwarder(main)
         urls = []
@@ -121,7 +121,7 @@ class TheEconomist(BaseFeedBook):
                     title = string_of_tag(node).strip()
                 url = node['href']
                 if url.startswith(r'/'):
-                    url = 'https://www.economist.com' + url
+                    url = 'http://www.economist.com' + url
                     # Did you block me?
                     url = self.url4forwarder(url)
                     #self.log.info('\tFound article:%s' % title)
