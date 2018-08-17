@@ -35,7 +35,7 @@ def fetch_cover(self):
     return data
 
 class TheEconomist(BaseFeedBook):
-    title                 = 'The Economist Web'
+    title                 = 'The Economist Web Alpha'
     description           = 'Global news and current affairs from a European perspective, delivered on Friday.'
     language              = 'en'
     feed_encoding         = "utf-8"
