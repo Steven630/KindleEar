@@ -9,7 +9,7 @@ def getBook():
     
 
 def fetch_cover(self):
-    mainurl = 'https://www.economist.com/ap/printedition'
+    mainurl = 'https://www.economist.com/printedition'
     opener = URLOpener(None, timeout=180)
 #    opener = URLOpener(self.host, timeout=90)
     result = opener.open(mainurl)
@@ -64,12 +64,12 @@ class TheEconomist(BaseFeedBook):
     ]
     remove_attributes = ['data-reactid']
     feeds = [
-            ('Index', 'https://www.economist.com/ap/printedition'),
+            ('Index', 'https://www.economist.com/printedition'),
            ]
     
     def ParseFeedUrls(self):
         #return list like [(section,title,url,desc),..]
-        main = 'https://www.economist.com/ap/printedition'
+        main = 'https://www.economist.com/printedition'
         urls = []
         urladded = set()
         opener = URLOpener(self.host, timeout=90)
