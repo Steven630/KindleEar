@@ -146,6 +146,7 @@ class NYTChina(BaseFeedBook):
             re.compile('^css-30n6iy'),
             re.compile('^ResponsiveMedia-credit'),
             re.compile('^css-1ly73wi'),
+            re.compile('^css-1dv1kvn'),
             'css-1y7ysfx',
             'css-y8aj3r',
             'css-1ahraz5',
