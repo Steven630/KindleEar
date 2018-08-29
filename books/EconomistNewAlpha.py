@@ -14,7 +14,7 @@ def url4forwarder(self, url):
     
 
 def fetch_cover(self):
-    mainurl = 'http://www.economist.com/printedition'
+    mainurl = 'https://www.economist.com/printedition'
     # Did you block me?
     mainurl = self.url4forwarder(mainurl)
     opener = URLOpener(None, timeout=180)
@@ -28,7 +28,7 @@ def fetch_cover(self):
     div=wrapper.find('div', class_='component-image print-edition__cover-widget__image')
     img = div.find('img', src=True)
     cover = img.get('src')
-    cover = mainurl = self.url4forwarder(cover)
+    cover = self.url4forwarder(cover)
 #    if cover.startswith('/'):
 #        cover = 'http://www.economist.com' + cover
     data = urllib.urlopen(cover).read()
@@ -72,7 +72,7 @@ class TheEconomist(BaseFeedBook):
     ]
     remove_attributes = ['data-reactid']
     feeds = [
-            ('Index', 'http://www.economist.com/printedition'),
+            ('Index', 'https://www.economist.com/printedition'),
            ]
     
     def url4forwarder(self, url):
@@ -81,7 +81,7 @@ class TheEconomist(BaseFeedBook):
     
     def ParseFeedUrls(self):
         #return list like [(section,title,url,desc),..]
-        main = 'http://www.economist.com/printedition'
+        main = 'https://www.economist.com/printedition'
         # Did you block me?
         main = self.url4forwarder(main)
         urls = []
