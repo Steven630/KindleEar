@@ -47,7 +47,7 @@ class ReutersChinaN(BaseFeedBook):
         soup = BeautifulSoup(content, "lxml")
         
         #开始解析           
-        for item in soup.find_all('div', attrs={'class':'BasicStoryTemplate_basic-story-container'}):
+        for item in soup.find_all('div', attrs={'class':'FeedItem_content-container'}):
             timestamp = item.find('span', attrs={'class':'FeedItemMeta_date-updated'})
             if not timestamp:
                 continue
