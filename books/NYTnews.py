@@ -33,13 +33,14 @@ class NYTChina(BaseFeedBook):
         .date {font-size: small}
         .credit {font-size: small}
         .dateline {font-size: small}  
-        .caption {font-style: italic}
+        .caption {font-style: italic}        
         h2 { font-size: medium  }
         h4 { font-size: medium; font-weight: bold }
         h1 { font-size: large  }
         *[class^="ResponsiveMedia-caption"] {font-style: italic}
         *[class^="elementStyles-printInformation"] {font-size: small}
         *[class^="css-1wtlzrm"] {font-style: italic}
+        *[class^="css-109u0hy"] {font-style: italic}
         .bottom-of-article {font-size: small}
         '''
 #    keep_only_tags = [dict(name='p')]
@@ -147,6 +148,7 @@ class NYTChina(BaseFeedBook):
             re.compile('^ResponsiveMedia-credit'),
             re.compile('^css-1ly73wi'),
             re.compile('^css-1dv1kvn'),
+            'emkp2hg1',
             'css-1y7ysfx',
             'css-y8aj3r',
             'css-1ahraz5',
