@@ -69,7 +69,8 @@ class TheEconomist(BaseFeedBook):
     
     def ParseFeedUrls(self):
         #return list like [(section,title,url,desc),..]
-        main = 'https://www.economist.com/printedition'
+#        main = 'https://www.economist.com/printedition'
+        main = 'https://www.economist.com/'
         urls = []
         urladded = set()
         opener = URLOpener(self.host, timeout=90)
@@ -77,7 +78,17 @@ class TheEconomist(BaseFeedBook):
         if result.status_code != 200:
             self.log.warn('fetch webpage failed:%s'%main)
             return []
-            
+        content = result.content.decode(self.feed_encoding)
+        soup = BeautifulSoup(content, "lxml")
+        a = soup.find('a', attrs={'class':'latest-printed__cta'})
+        current = a['href']
+        if current.startswith(r'/'):
+            current = 'https://www.economist.com' + url
+        opener = URLOpener(self.host, timeout=90)
+        result = opener.open(current)
+        if result.status_code != 200:
+            self.log.warn('fetch latest edition failed:%s'%main)
+            return []
         content = result.content.decode(self.feed_encoding)
         soup = BeautifulSoup(content, "lxml")
         
