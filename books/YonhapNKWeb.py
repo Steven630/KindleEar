@@ -17,7 +17,7 @@ class YonhapNK(BaseFeedBook):
     coverfile             = "cv_economist.jpg"
     oldest_article        = 1
     fulltext_by_readability = False
-    keep_image            =  True
+    keep_image            =  False
     extra_css      = '''
         p { font-size: 1em; font-weight: 600;  text-align: justify;  line-height: 1.5 }
         h1 { font-size: large  }
@@ -39,7 +39,7 @@ class YonhapNK(BaseFeedBook):
     
     def ParseFeedUrls(self):
         #return lists like [(section,title,url,desc),..]
-        main = 'http://www.yonhapnews.co.kr/nk/index.html'
+        main = 'https://www.yna.co.kr/nk/index'
         urls = []
         urladded = set()
         opener = URLOpener(self.host, timeout=90)
