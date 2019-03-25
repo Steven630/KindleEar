@@ -135,6 +135,6 @@ class TheEconomist(BaseFeedBook):
     figcaption {font-style: italic}
     .caption {font-style: italic}
     .location { font-size: small;  }
-    .xhead { font-weight: bold;  }
+    .xhead { font-weight: bold; font-size: medium }
     .Bold { font-weight: bold; font-style: normal }
         '''
