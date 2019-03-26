@@ -60,10 +60,10 @@ class YonhapNK(BaseFeedBook):
             a = h2.find('a', href=True)
             atitle = string_of_tag(a).strip()
             url = a['href']
-            if url.startswith('HTTP'):
-                url=url.replace('HTTP','http')
             if url.startswith('/'):
                 url='https:'+ url
+            elif url.startswith('HTTP'):
+                url=url.replace('HTTP','http')
             if url not in urladded:
                 urls.append((u'韩联社朝鲜要闻',atitle,url,None))
                 urladded.add(url)
@@ -77,20 +77,20 @@ class YonhapNK(BaseFeedBook):
                     rurl = relateda['href']
                     if rurl.startswith('/'):
                         rurl= 'https:'+ rurl
-                    if rurl.startswith('HTTP'):
+                    elif rurl.startswith('HTTP'):
                         rurl=rurl.replace('HTTP','http')
                     if rurl not in urladded:
                         urls.append((u'韩联社朝鲜要闻',rtitle,rurl,None))
                         urladded.add(rurl)
                         
-        part2 = 'http://www.yonhapnews.co.kr/nk/4807080001.html'
+        part2 = 'https://www.yna.co.kr/nk/news/all'
         opener2 = URLOpener(self.host, timeout=90)
         result2 = opener2.open(part2)
         if result2.status_code != 200:
             self.log.warn('fetch latest news failed:%s'%main)
         content2 = result2.content.decode(self.page_encoding)
         soup2 = BeautifulSoup(content2, "lxml")
-        sect = soup2.find('ul', attrs={'class':'list-type01'})
+        sect = soup2.find('ul', attrs={'class':'list-type01 yna-more'})
         for arti in sect.find_all('article'):
             h = arti.find('h2')
             a2 = h.find('a', href=True)
@@ -98,7 +98,9 @@ class YonhapNK(BaseFeedBook):
             if u'[북한날씨]' in title:
                 continue
             aurl = a2['href']
-            if aurl.startswith('HTTP'):
+            if aurl.startswith('/'):
+                aurl= 'https:'+ aurl
+            elif aurl.startswith('HTTP'):
                 aurl=aurl.replace('HTTP','http')
             if aurl not in urladded:
                 urls.append((u'朝鲜最新消息',title,aurl,None))
