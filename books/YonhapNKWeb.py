@@ -62,6 +62,8 @@ class YonhapNK(BaseFeedBook):
             url = a['href']
             if url.startswith('HTTP'):
                 url=url.replace('HTTP','http')
+            if url.startswith('/'):
+                url='https:'+ url
             if url not in urladded:
                 urls.append((u'韩联社朝鲜要闻',atitle,url,None))
                 urladded.add(url)
@@ -73,6 +75,8 @@ class YonhapNK(BaseFeedBook):
                     rtitle = string_of_tag(relateda).strip()
                     rtitle = 'Related: '+ rtitle #在相关文章标题前加标志
                     rurl = relateda['href']
+                    if rurl.startswith('/'):
+                        rurl= 'https:'+ rurl
                     if rurl.startswith('HTTP'):
                         rurl=rurl.replace('HTTP','http')
                     if rurl not in urladded:
