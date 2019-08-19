@@ -41,6 +41,8 @@ class NYTChina(BaseFeedBook):
         *[class^="elementStyles-printInformation"] {font-size: small}
         *[class^="css-1wtlzrm"] {font-style: italic}
         *[class^="css-109u0hy"] {font-style: italic}
+        *[itemprop^="caption"] {font-style: italic}
+        *[itemprop^="copyrightHolder"] {font-size: small}
         .bottom-of-article {font-size: small}
         '''
 #    keep_only_tags = [dict(name='p')]
