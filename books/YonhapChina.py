@@ -17,7 +17,7 @@ class YonhapChina(BaseFeedBook):
     coverfile             = "cv_economist.jpg"
     oldest_article        = 1
     fulltext_by_readability = False
-    keep_image            =  True
+    keep_image            =  False
     extra_css      = '''
         body { font-size: 1em;  text-align: justify;  line-height: 1.718em}
         p { font-size: 1em;  text-align: justify;  line-height: 1.718em }
@@ -32,7 +32,7 @@ class YonhapChina(BaseFeedBook):
 #                      dict(id='article-body-blocks')
                      ]
     remove_classes = ['share-info','link-info','article-ad-box','adrs','article-sns-md','cprgt','pblsh','article-sns-md sns-md03',
-                      'img-info','banner-0-wrap','blind'
+                      'img-info','banner-0-wrap','blind','article-sns-md sns-md04'
                      ]
     remove_tags_after = [ dict(attrs={'class':[
             'pblsh'
@@ -41,7 +41,7 @@ class YonhapChina(BaseFeedBook):
     
     def ParseFeedUrls(self):
         #return lists like [(section,title,url,desc),..]
-        main = 'http://www.yonhapnews.co.kr/international/0603000001.html'
+        main = 'https://www.yna.co.kr/international/china'
         urls = []
         opener = URLOpener(self.host, timeout=90)
         result = opener.open(main)
@@ -65,6 +65,8 @@ class YonhapChina(BaseFeedBook):
             atitle = string_of_tag(a).strip()
             atitle = atitle + ' ' + ptime
             url = a['href']
+            if url.startswith('/'):
+                url= 'https:'+ url
             urls.append((u'중국 뉴스',atitle,url,None))        
         if len(urls) == 0:
             self.log.warn('len of urls is zero.')
