@@ -131,6 +131,7 @@ class TheEconomist(BaseFeedBook):
     extra_css= '''
     .flytitle-and-title__flytitle {font-size: medium; font-weight: bold; display: block;}
     .flytitle-and-title__title {font-size: large; font-weight: bold}
+    h2 { font-size: medium }
     .blog-post__rubric { font-weight: bold;  }
     figcaption {font-style: italic}
     .caption {font-style: italic}
