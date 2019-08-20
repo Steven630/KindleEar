@@ -19,9 +19,7 @@ class YonhapChina(BaseFeedBook):
     fulltext_by_readability = False
     keep_image            =  False
     extra_css      = '''
-        body { font-size: 1em;  text-align: justify;  line-height: 1.718em}
-        p { font-size: 1em;  text-align: justify;  line-height: 1.718em }
-        div { font-size: 1em;  text-align: justify;  line-height: 1.718em }
+        p { font-size: 1em; font-weight: 600;  text-align: justify;  line-height: 1.5 }
         h1 { font-size: large  }
         '''
     keep_only_tags = [
