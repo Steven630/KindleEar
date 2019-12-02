@@ -306,5 +306,21 @@ class NYTChina(BaseFeedBook):
             'newsletter-promo',
         ]),
         dict(name=['script', 'noscript', 'style', 'form', 'hr', 'button', 'meta', 'footer']),
-        dict(name='span', string='image')
+        dict(name='span', string='image'),
+        dict(attrs={'aria-label':'tools'.split()}),
+        dict(attrs={'aria-label': lambda x: x and 'New York Times Logo' in x}),
+        dict(href='#site-content #site-index'.split()),
+        dict(attrs={'aria-hidden':'true'}),
+        dict(attrs={'data-videoid':True}),
+        dict(name='button meta link'.split()),
+        dict(id=lambda x: x and x.startswith('story-ad-')),
+        dict(name='head'),
+        dict(role='toolbar'),
+        dict(name='a', href=lambda x: x and '#story-continues-' in x),
+        dict(name='a', href=lambda x: x and '#whats-next' in x),
+        dict(id=lambda x: x and 'sharetools-' in x),
+        dict(id='newsletter-promo supported-by-ad bottom-wrapper'.split()),
+        classes('story-print-citation supported-by accessibility-ad-header visually-hidden bottom-of-article ad'),
+        dict(attrs={'class': lambda x: x and (
+            'SectionBar' in x or 'recirculation' in x or 'ResponsiveAd' in x or 'accessibility-visuallyHidden' in x or 'RelatedCoverage' in x)})
     ]
