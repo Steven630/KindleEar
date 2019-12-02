@@ -166,7 +166,8 @@ class NYTChina(BaseFeedBook):
             'interactive-image-container', 'interactive-caption',
             'elementStyles-translationLinks--27EiR', 'accessibility-visuallyHidden--OUeHR',
             'Media-credit--1ZFho ResponsiveMedia-credit--3F-q_',
-            'SectionBarShare-shareMenu--2ndEi SectionBarShare-toneNews--1a-Gj SectionBarShare-bottom--3ONdV'
+            'SectionBarShare-shareMenu--2ndEi SectionBarShare-toneNews--1a-Gj SectionBarShare-bottom--3ONdV',
+            'story-print-citation supported-by accessibility-ad-header visually-hidden bottom-of-article ad'
     ]
     remove_tags = [
         dict(name='div', role='toolbar'),
@@ -320,7 +321,7 @@ class NYTChina(BaseFeedBook):
         dict(name='a', href=lambda x: x and '#whats-next' in x),
         dict(id=lambda x: x and 'sharetools-' in x),
         dict(id='newsletter-promo supported-by-ad bottom-wrapper'.split()),
-        classes('story-print-citation supported-by accessibility-ad-header visually-hidden bottom-of-article ad'),
+#        classes('story-print-citation supported-by accessibility-ad-header visually-hidden bottom-of-article ad'),
         dict(attrs={'class': lambda x: x and (
             'SectionBar' in x or 'recirculation' in x or 'ResponsiveAd' in x or 'accessibility-visuallyHidden' in x or 'RelatedCoverage' in x)})
     ]
