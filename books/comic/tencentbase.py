@@ -1,114 +1,75 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 #http://ac.qq.com或者http://m.ac.qq.com网站的免费漫画的基类，简单提供几个信息实现一个子类即可推送特定的漫画
-import re, urlparse, json, datetime, base64
-from time import sleep
-from config import TIMEZONE
+#Author: insert0003 <https://github.com/insert0003>
+import re, urlparse, json, base64
 from lib.urlopener import URLOpener
 from lib.autodecoder import AutoDecoder
 from books.base import BaseComicBook
-from apps.dbModels import LastDelivered
+from bs4 import BeautifulSoup
 
 
 class TencentBaseBook(BaseComicBook):
-    title               = u''
-    description         = u''
-    language            = ''
-    feed_encoding       = ''
-    page_encoding       = ''
-    mastheadfile        = ''
-    coverfile           = ''
-    host                = 'http://m.ac.qq.com'
-    feeds               = [] #子类填充此列表[('name', mainurl),...]
+    accept_domains = ("http://ac.qq.com", "http://m.ac.qq.com")
+    host = "http://m.ac.qq.com"
+    feeds = []  # 子类填充此列表[('name', mainurl),...]
 
-    #使用此函数返回漫画图片列表[(section, title, url, desc),...]
-    def ParseFeedUrls(self):
-        urls = [] #用于返回
-        
-        userName = self.UserName()
-        for item in self.feeds:
-            title, url = item[0], item[1]
-            comic_id = ""
-            
-            lastCount = LastDelivered.all().filter('username = ', userName).filter("bookname = ", title).get()
-            if not lastCount:
-                default_log.info('These is no log in db LastDelivered for name: %s, set to 0' % title)
-                oldNum = 0
-            else:
-                oldNum = lastCount.num
-
-            urlpaths = urlparse.urlsplit(url.lower()).path.split("/")
-            if ( (u"id" in urlpaths) and (urlpaths.index(u"id")+1 < len(urlpaths)) ):
-                comic_id = urlpaths[urlpaths.index(u"id")+1]
-
-            if ( (not comic_id.isdigit()) or (comic_id=="") ):
-                self.log.warn('can not get comic id: %s' % url)
-                break
-
-            chapterList = self.getChapterList(comic_id)
-            for deliverCount in range(5):
-                newNum = oldNum + deliverCount
-                if newNum < len(chapterList):
-                    imgList = self.getImgList(chapterList[newNum], comic_id)
-                    for img in imgList:
-                        urls.append((title, img, img, None))
-                    self.UpdateLastDelivered(title, newNum+1)
-                    if newNum == 0:
-                        break
-
-        return urls
-
-    #更新已经推送的卷序号到数据库
-    def UpdateLastDelivered(self, title, num):
-        userName = self.UserName()
-        dbItem = LastDelivered.all().filter('username = ', userName).filter('bookname = ', title).get()
-        self.last_delivered_volume = u' 第%d话' % num
-        if dbItem:
-            dbItem.num = num
-            dbItem.record = self.last_delivered_volume
-            dbItem.datetime = datetime.datetime.utcnow() + datetime.timedelta(hours=TIMEZONE)
-        else:
-            dbItem = LastDelivered(username=userName, bookname=title, num=num, record=self.last_delivered_volume,
-                datetime=datetime.datetime.utcnow() + datetime.timedelta(hours=TIMEZONE))
-        dbItem.put()
-
-    #获取漫画章节列表
-    def getChapterList(self, comic_id):
+    # 获取漫画章节列表
+    def getChapterList(self, url):
         decoder = AutoDecoder(isfeed=False)
         opener = URLOpener(self.host, timeout=60)
         chapterList = []
 
-        getChapterListUrl = 'http://m.ac.qq.com/GetData/getChapterList?id={}'.format(comic_id)
-        result = opener.open(getChapterListUrl)
+        urlpaths = urlparse.urlsplit(url.lower()).path.split("/")
+        if ( (u"id" in urlpaths) and (urlpaths.index(u"id")+1 < len(urlpaths)) ):
+            comic_id = urlpaths[urlpaths.index(u"id")+1]
+
+        if ( (not comic_id.isdigit()) or (comic_id=="") ):
+            self.log.warn('can not get comic id: %s' % url)
+            return chapterList
+
+        url = 'https://m.ac.qq.com/comic/chapterList/id/{}'.format(comic_id)
+        result = opener.open(url)
         if result.status_code != 200 or not result.content:
             self.log.warn('fetch comic page failed: %s' % url)
             return chapterList
 
-        content = result.content
-        content = self.AutoDecodeContent(content, decoder, self.page_encoding, opener.realurl, result.headers)
+        content = self.AutoDecodeContent(result.content, decoder, self.feed_encoding, opener.realurl, result.headers)
 
-        contentJson = json.loads(content)
-        count = contentJson.get('length', 0)
-        if (count != 0):
-            for i in range(count + 1):
-                for item in contentJson:
-                    if isinstance(contentJson[item], dict) and contentJson[item].get('seq') == i:
-                        chapterList.append({item: contentJson[item]})
-                        break
-        else:
-            self.log.warn('comic count is zero.')
+        soup = BeautifulSoup(content, 'html.parser')
+        # <section class="chapter-list-box list-expanded" data-vip-free="1">
+        section = soup.find('section', {'class': 'chapter-list-box list-expanded'})
+        if (section is None):
+            self.log.warn('chapter-list-box is not exist.')
+            return chapterList
+
+        # <ul class="chapter-list normal">
+        # <ul class="chapter-list reverse">
+        reverse_list = section.find('ul', {'class': 'chapter-list reverse'})
+        if (reverse_list is None):
+            self.log.warn('chapter-list is not exist.')
+            return chapterList
+
+        for item in reverse_list.find_all('a'):
+            # <a class="chapter-link lock" data-cid="447" data-seq="360" href="/chapter/index/id/531490/cid/447">360</a>
+            # https://m.ac.qq.com/chapter/index/id/511915/cid/1
+            href = 'https://m.ac.qq.com' + item.get('href')
+            isVip = "lock" in item.get('class')
+            if isVip == True:
+                self.log.info("Chapter {} is Vip, waiting for free.".format(href))
+                continue
+
+            chapterList.append((item.get_text(), href))
 
         return chapterList
 
     #获取漫画图片列表
-    def getImgList(self, chapterJson, comic_id):
+    def getImgList(self, url):
         decoder = AutoDecoder(isfeed=False)
         opener = URLOpener(self.host, timeout=60)
         imgList = []
 
-        cid = list(chapterJson.keys())[0]
-        getImgListUrl = 'http://ac.qq.com/ComicView/index/id/{0}/cid/{1}'.format(comic_id, cid)
-        result = opener.open(getImgListUrl)
+        result = opener.open(url)
         if result.status_code != 200 or not result.content:
             self.log.warn('fetch comic page failed: %s' % url)
             return imgList
@@ -116,13 +77,37 @@ class TencentBaseBook(BaseComicBook):
         content = result.content
         cid_page = self.AutoDecodeContent(content, decoder, self.page_encoding, opener.realurl, result.headers)
         filter_result = re.findall(r"data\s*:\s*'(.+?)'", cid_page)
+        # "picture": [{},...{}]}
         if len(filter_result) != 0:
-            base64data = filter_result[0][1:]
-            img_detail_json = json.loads(base64.decodestring(base64data))
-            for img_url in img_detail_json.get('picture', []):
-                if ( 'url' in img_url ):
-                    imgList.append(img_url['url'])
-                else:
-                    self.log.warn('no url in img_url:%s' % img_url)
+            # "picture" > InBpY3R1cmUi
+            # picture": > cGljdHVyZSI6
+            # icture":[ > aWN0dXJlIjpb
+            if "InBpY3R1cmUi" in filter_result[0]:
+                base64data = filter_result[0].split("InBpY3R1cmUi")[1]
+                self.log.warn('found flag string: %s'%"InBpY3R1cmUi")
+            elif "cGljdHVyZSI6" in filter_result[0]:
+                base64data = filter_result[0].split("cGljdHVyZSI6")[1]
+                self.log.warn('found flag string: %s'%"cGljdHVyZSI6")
+            elif "aWN0dXJlIjpb" in filter_result[0]:
+                base64data = filter_result[0].split("aWN0dXJl")[1]
+                self.log.warn('found flag string: %s'%"aWN0dXJlIjpb")
+            else:
+                self.log.warn('can not found flag string in data: %s'%filter_result[0])
+                return imgList
+            decodeData = base64.decodestring(base64data)
+            startIndex = decodeData.find('[')
+            endIndex = decodeData.find(']')
+
+            if startIndex > -1 and endIndex > -1:
+                img_detail_json = json.loads(decodeData[startIndex:endIndex+1])
+                for img_url in img_detail_json:
+                    if ( 'url' in img_url ):
+                        imgList.append(img_url['url'])
+                    else:
+                        self.log.warn('no url in img_url:%s' % img_url)
+            else:
+                self.log.warn('can not found [] in decodeData:%s' % decodeData)
+        else:
+            self.log.warn('can not fount filter_result with data: .')
 
         return imgList
