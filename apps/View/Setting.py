@@ -24,7 +24,7 @@ def langMap():
                         ("ja-jp", _("Japanese")),
                         ("ru-ru", _("Russian")),
                         ("tr-tr", _("Turkish")),
-                        ("ko-kr", _("Korean")),
+                        ("ko", _("Korean")),
                         ("ar", _("Arabic")),
                         ("cs", _("Czech")),
                         ("nl", _("Dutch")),
