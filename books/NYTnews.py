@@ -47,10 +47,10 @@ class NYTChina(BaseFeedBook):
         '''
 #    keep_only_tags = [dict(name='p')]
     remove_tags_after = [ dict(attrs={'class':[
-            'module-heading','story-print-citation','story-info','bottom-of-article'
+            'module-heading','story-print-citation','story-info','bottom-of-article','ad bottom-wrapper','css-1ede5it'
     ]})]
     remove_tags_before = [dict(name=['h1'])]
-    remove_ids = ['news-tips-article-promo','player']
+    remove_ids = ['news-tips-article-promo','player','bottom-wrapper','bottom-slug','site-index','bottom']
     remove_classes = [
             'articleFooter',
             'articleTools',
