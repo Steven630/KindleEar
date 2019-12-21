@@ -52,11 +52,14 @@ class TheEconomist(BaseFeedBook):
                       'latest-updates-panel-card__time','blog-post__siblings-list-aside ','blog-post__siblings-list-aside',
                       'blog-post__siblings-list-header ','blog-post__siblings-list-header','special-report-header',
                       'special-report-header-sponser','content_clearfix','column-right','blog-post__asideable-wrapper',
-                      'newsletter-form','blog-post__bottom-panel'
+                      'newsletter-form','blog-post__bottom-panel','share-links-header teaser--wrapped latest-updates-panel__container',
+                      'latest-updates-panel__article-link blog-post__section newsletter-form blog-post__bottom-panel',
+                      ' latest-updates-panel__article-link blog-post__section newsletter-form blog-post__bottom-panel'                      
                       ]
 #    remove_ids = ['more-kallery']
     remove_tags = [
-            {'name':'script'},{'name':'noscript'},{'name':'aside'}
+            {'name':'script'},{'name':'noscript'},{'name':'aside'},
+            dict(attrs={'aria-label': "Article Teaser"})           
     ]
     keep_only_tags = [{'name':'article'}
                      ]
