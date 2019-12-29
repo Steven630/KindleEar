@@ -75,8 +75,8 @@ class TheEconomist(BaseFeedBook):
         #return list like [(section,title,url,desc),..]
         login_url = 'https://my.economist.com/'
         main = 'https://www.economist.com/printedition'
-        login_form = {"E-mail address":self.account, "password":self.password}
-        login_response = opener.open(login_url, data=login_form)
+#        login_form = {"css-1gytnsx":self.account, "password":self.password}
+#        login_response = opener.open(login_url, data=login_form)
 #        main = 'https://www.economist.com/'
         urls = []
         urladded = set()
