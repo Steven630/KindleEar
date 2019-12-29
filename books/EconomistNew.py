@@ -39,6 +39,7 @@ class TheEconomist(BaseFeedBook):
     deliver_times         = [14]
     fulltext_by_readability = False
     keep_image            = True
+    needs_subscription    = True
     
     remove_classes = ['ec-messages', 'dblClkTrk', 'ec-article-info',
                       'share_inline_header', 'related-items','pullquote','ad-panel__googlead'
@@ -72,7 +73,10 @@ class TheEconomist(BaseFeedBook):
     
     def ParseFeedUrls(self):
         #return list like [(section,title,url,desc),..]
+        login_url = 'https://my.economist.com/'
         main = 'https://www.economist.com/printedition'
+        login_form = {"E-mail address":self.account, "password":self.password}
+        login_response = opener.open(login_url, data=login_form)
 #        main = 'https://www.economist.com/'
         urls = []
         urladded = set()
