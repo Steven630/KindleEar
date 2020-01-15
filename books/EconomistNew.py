@@ -55,7 +55,8 @@ class TheEconomist(BaseFeedBook):
                       'special-report-header-sponser','content_clearfix','column-right','blog-post__asideable-wrapper',
                       'newsletter-form','blog-post__bottom-panel','share-links-header teaser--wrapped latest-updates-panel__container',
                       'latest-updates-panel__article-link blog-post__section newsletter-form blog-post__bottom-panel',
-                      ' latest-updates-panel__article-link blog-post__section newsletter-form blog-post__bottom-panel'                      
+                      ' latest-updates-panel__article-link blog-post__section newsletter-form blog-post__bottom-panel','related-article',
+                      'article__footnote'
                       ]
 #    remove_ids = ['more-kallery']
     remove_tags = [
@@ -64,7 +65,7 @@ class TheEconomist(BaseFeedBook):
     ]
     keep_only_tags = [{'name':'article'}
                      ]
-    remove_tags_after = [ dict(attrs={'class':['blog-post__foot-note','blog-post__comments-label','blog-post__bottom-panel']})
+    remove_tags_after = [ dict(attrs={'class':['blog-post__foot-note','blog-post__comments-label','blog-post__bottom-panel','article__footnote']})
     ]
     remove_attributes = ['data-reactid']
     feeds = [
