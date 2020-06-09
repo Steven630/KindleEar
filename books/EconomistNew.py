@@ -106,7 +106,7 @@ class TheEconomist(BaseFeedBook):
 #            if div is None:
 #                self.log.warn('This part skipped.')
 #                continue
-        for section in soup.find_all(**classes('layout-weekly-edition-section')):
+        for section in soup.find_all(class_= lambda value: value and value.startswith('layout-weekly-edition-section')):
             h2 = section.find('h2')
             sectitle = string_of_tag(h2).strip()
             if not sectitle:
@@ -116,7 +116,7 @@ class TheEconomist(BaseFeedBook):
                 continue
             #self.log.info('Found section: %s' % section_title)
             articles = []
-            for node in section.find_all('a', href=True, **classes('headline-link weekly-edition-wtw__link')):
+            for node in section.find_all('a', href=True, class_= lambda value: value and value.startswith('headline-link')):
                 spans = node.find_all('span')
                 if len(spans) == 2: 
                     title = u'{}: {}'.format(*map(string_of_tag, spans))
