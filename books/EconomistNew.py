@@ -9,7 +9,7 @@ def getBook():
     
 
 def fetch_cover(self):
-    mainurl = 'https://www.economist.com/printedition'
+    mainurl = 'https://www.economist.com/weeklyedition'
     opener = URLOpener(None, timeout=180)
 #    opener = URLOpener(self.host, timeout=90)
     result = opener.open(mainurl)
@@ -17,9 +17,9 @@ def fetch_cover(self):
 #    content = result.content.decode(self.feed_encoding)
     soup = BeautifulSoup(content, "lxml")
 #    wrapper = soup.find('div', attrs={'class':'print-edition__cover-wrapper'})
-    wrapper = soup.find('div', class_='print-edition__cover-wrapper')
-    div=wrapper.find('div', class_='component-image print-edition__cover-widget__image')
-    img = div.find('img', src=True)
+    header = soup.find('div', class_='weekly-edition-header__image')
+#    div=wrapper.find('div', class_='component-image print-edition__cover-widget__image')
+    img = header.find('img', src=True)
     cover = img.get('src')
 #    if cover.startswith('/'):
 #        cover = 'http://www.economist.com' + cover
@@ -69,13 +69,13 @@ class TheEconomist(BaseFeedBook):
     ]
     remove_attributes = ['data-reactid']
     feeds = [
-            ('Index', 'https://www.economist.com/printedition'),
+            ('Index', 'https://www.economist.com/weeklyedition'),
            ]
     
     def ParseFeedUrls(self):
         #return list like [(section,title,url,desc),..]
         login_url = 'https://my.economist.com/'
-        main = 'https://www.economist.com/printedition'
+        main = 'https://www.economist.com/weeklyedition'
 #        login_form = {"css-1gytnsx":self.account, "password":self.password}
 #        login_response = opener.open(login_url, data=login_form)
 #        main = 'https://www.economist.com/'
