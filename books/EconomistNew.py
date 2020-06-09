@@ -101,12 +101,14 @@ class TheEconomist(BaseFeedBook):
         soup = BeautifulSoup(content, "lxml")
         
         #开始解析
-        for section in soup.find_all('li', attrs={'class':'list__item'}):
-            div = section.find('div')
-            if div is None:
-                self.log.warn('This part skipped.')
-                continue
-            sectitle = string_of_tag(div).strip()
+#        for section in soup.find_all('li', attrs={'class':'list__item'}):
+#            div = section.find('div')
+#            if div is None:
+#                self.log.warn('This part skipped.')
+#                continue
+        for section in soup.find_all(**classes('layout-weekly-edition-section')):
+            h2 = section.find('h2')
+            sectitle = string_of_tag(h2).strip()
             if not sectitle:
                 self.log.warn('No section title')
                 continue
@@ -114,14 +116,18 @@ class TheEconomist(BaseFeedBook):
                 continue
             #self.log.info('Found section: %s' % section_title)
             articles = []
-            for node in section.find_all('a', href=True):
-                spans = node.findAll('span')
-                if len(spans) == 2:
-                    fly= node.find('span', attrs={'class':'print-edition__link-flytitle'})
-                    pre= string_of_tag(fly).strip()
-                    ti= node.find('span', attrs={'class':'print-edition__link-title'})
-                    post= string_of_tag(ti).strip()
-                    title = pre +': '+ post
+            for node in section.find_all('a', href=True, **classes('headline-link weekly-edition-wtw__link')):
+                spans = node.find_all('span')
+                if len(spans) == 2: 
+                    title = u'{}: {}'.format(*map(string_of_tag, spans))
+#            for node in section.find_all('a', href=True):
+#                spans = node.findAll('span')
+#                if len(spans) == 2:
+#                    fly= node.find('span', attrs={'class':'print-edition__link-flytitle'})
+#                    pre= string_of_tag(fly).strip()
+#                    ti= node.find('span', attrs={'class':'print-edition__link-title'})
+#                    post= string_of_tag(ti).strip()
+#                    title = pre +': '+ post
                 else:
                     title = string_of_tag(node).strip()
                 url = node['href']
