@@ -167,7 +167,10 @@ class NYTChina(BaseFeedBook):
             'elementStyles-translationLinks--27EiR', 'accessibility-visuallyHidden--OUeHR',
             'Media-credit--1ZFho ResponsiveMedia-credit--3F-q_',
             'SectionBarShare-shareMenu--2ndEi SectionBarShare-toneNews--1a-Gj SectionBarShare-bottom--3ONdV',
-            'story-print-citation supported-by accessibility-ad-header visually-hidden bottom-of-article ad'
+            'story-print-citation supported-by accessibility-ad-header visually-hidden bottom-of-article ad',
+            'g-inlineguide',
+            'g-inlineguide-container',
+            'css-mdjrty'
     ]
     remove_tags = [
         dict(name='div', role='toolbar'),
