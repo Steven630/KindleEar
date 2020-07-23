@@ -39,7 +39,7 @@ class ChosunWeekly(BaseFeedBook):
     needs_subscription    = False
     
          
-    ]
+    
     keep_only_tags = [{'name':'h2'},
                       dict(name='div', attrs={'class': 'article_body' })]
 #    feeds = [('Index', 'http://weekly.chosun.com/client/news/alllst.asp?nHo=') ]
