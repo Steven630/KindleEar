@@ -52,7 +52,7 @@ def ParseFeedUrls(self):
         urladded = set()
         opener = URLOpener(self.host, timeout=90)
         result1 = opener.open(hopage)
-        if result.status_code != 200:
+        if result1.status_code != 200:
             self.log.warn('fetch webpage failed:%s'%hopage)
             return []
         content = result1.content.decode(self.feed_encoding)
@@ -67,10 +67,10 @@ def ParseFeedUrls(self):
             self.log.warn('Fetching ho failed.')
         main= mainhead + ho
         result2= opener.open(main)
-        if result.status_code != 200:
+        if result2.status_code != 200:
             self.log.warn('fetch webpage failed:%s'%main)
             return []
-        content = result1.content.decode(self.feed_encoding)
+        content = result2.content.decode(self.feed_encoding)
         soup = BeautifulSoup(content, "lxml")
         
         #开始解析
