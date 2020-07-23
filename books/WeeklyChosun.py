@@ -18,8 +18,10 @@ def fetch_cover(self):
     div = soup.find('div', class_='box_cover_new')
     img = div.find('img', src=True)
     cover = img.get('src')
-#    if cover.startswith('/'):
-#        cover = mainurl + cover
+    if cover.startswith('/'):
+        cover = mainurl + cover
+    else:
+        cover = 'http://weekly.chosun.com'+ cover
     data = urllib.urlopen(cover).read()
     return data
     
