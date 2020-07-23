@@ -24,8 +24,8 @@ def fetch_cover(self):
     return data
     
 class ChosunWeekly(BaseFeedBook):
-    title                 =  u'주간조선'
-    description           =  u'1968년 10월 20일에 창간한 한국에서 가장 오래된 주간 시사잡지.'
+    title                 =  u'周刊朝鲜'
+    description           =  u'每周三投递'
     language              = 'ko'
     feed_encoding         = "euc-kr"
     page_encoding         = "euc-kr"
