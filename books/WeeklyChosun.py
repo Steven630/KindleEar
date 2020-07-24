@@ -24,6 +24,23 @@ def fetch_cover(self):
         cover = 'http://weekly.chosun.com'+ cover
     data = urllib.urlopen(cover).read()
     return data
+
+def FindHo():
+    hopage = 'http://weekly.chosun.com/client/contents/lst.asp'
+    opener = URLOpener(self.host, timeout=90)
+    result = opener.open(hopage)
+    content = result.content.decode('euc-kr')
+    if result.status_code != 200:
+        self.log.warn('fetching hopage failed:%s'%hopage)
+    soup = BeautifulSoup(content, "lxml")
+    location=soup.find('div', id='Location')
+    edition=location.find('div', class_='edition')
+    ho = string_of_tag(edition).strip()
+    if ho.startswith('['):
+        ho=ho[1:5]
+    else:
+        self.log.warn('Fetching ho failed.')
+    return ho
     
 class ChosunWeekly(BaseFeedBook):
     title                 =  u'周刊朝鲜'
@@ -45,22 +62,6 @@ class ChosunWeekly(BaseFeedBook):
     keep_only_tags = [{'name':'h2'},
                       dict(name='div', attrs={'class': 'article_body' })]
 #    feeds = [('Index', 'http://weekly.chosun.com/client/news/alllst.asp?nHo=') ]
-    def FindHo():
-        hopage = 'http://weekly.chosun.com/client/contents/lst.asp'
-        opener = URLOpener(self.host, timeout=90)
-        result = opener.open(hopage)
-        content = result.content.decode('euc-kr')
-        if result.status_code != 200:
-            self.log.warn('fetching hopage failed:%s'%hopage)
-        soup = BeautifulSoup(content, "lxml")
-        location=soup.find('div', id='Location')
-        edition=location.find('div', class_='edition')
-        ho = string_of_tag(edition).strip()
-        if ho.startswith('['):
-            ho=ho[1:5]
-        else:
-            self.log.warn('Fetching ho failed.')
-        return ho
 
     def ParseFeedUrls(self):
         #return list like [(section,title,url,desc),..]
@@ -104,5 +105,5 @@ class ChosunWeekly(BaseFeedBook):
                         urladded.add(url)
 
         if len(urls) == 0:
-            self.log.warn('len of urls is zero.')
+            self.log.warn('No articles found for WeeklyChosun.')
         return urls
