@@ -45,42 +45,43 @@ class ChosunWeekly(BaseFeedBook):
     keep_only_tags = [{'name':'h2'},
                       dict(name='div', attrs={'class': 'article_body' })]
 #    feeds = [('Index', 'http://weekly.chosun.com/client/news/alllst.asp?nHo=') ]
+    def FindHo():
+        hopage = 'http://weekly.chosun.com/client/contents/lst.asp'
+        opener = URLOpener(self.host, timeout=90)
+        result = opener.open(hopage)
+        content = result.content.decode('euc-kr')
+        if result.status_code != 200:
+            self.log.warn('fetching hopage failed:%s'%hopage)
+        soup = BeautifulSoup(content, "lxml")
+        location=soup.find('div', id='Location')
+        edition=location.find('div', class_='edition')
+        ho = string_of_tag(edition).strip()
+        if ho.startswith('['):
+            ho=ho[1:5]
+        else:
+            self.log.warn('Fetching ho failed.')
+        return ho
 
-
-def ParseFeedUrls(self):
+    def ParseFeedUrls(self):
         #return list like [(section,title,url,desc),..]
-        hopage = 'http://weekly.chosun.com/client/contents/lst.asp' 
         mainhead = 'http://weekly.chosun.com/client/news/alllst.asp?nHo='
         urls = []
         urladded = set()
         opener = URLOpener(self.host, timeout=90)
-        result1 = opener.open(hopage)
-        if result1.status_code != 200:
-            self.log.warn('fetch webpage failed:%s'%hopage)
-            return []
-        content = result1.content.decode(self.feed_encoding)
-        soup = BeautifulSoup(content, "lxml")
-        
-        location=soup.find('div', id='Location')
-        edition=location.find('div', class_='edition')
-        ho = string_of_tag(edition).strip()
-        if ho.startswith(r'['):
-            ho=ho[1:5]
-        else:
-            self.log.warn('Fetching ho failed.')
+        ho = FindHo()
         main= mainhead + ho
-        result2= opener.open(main)
-        if result2.status_code != 200:
-            self.log.warn('fetch webpage failed:%s'%main)
+        result= opener.open(main)
+        if result.status_code != 200:
+            self.log.warn('Fetching TOC failed:%s'%main)
             return []
-        content = result2.content.decode(self.feed_encoding)
+        content = result.content.decode(self.feed_encoding)
         soup = BeautifulSoup(content, "lxml")
-        
+
         #开始解析
         def tr_has_a_tag(tag):
             return tag.name=='tr' and tag.find('a')
-            
-        for section in soup.find_all('table'):
+        listarea= soup.find('div', class_='List_area')    
+        for section in listarea.find_all('table'):
             h4 = section.find_previous_sibling('h4')
             sectitle = string_of_tag(h4).strip()
             if not sectitle:
@@ -101,7 +102,7 @@ def ParseFeedUrls(self):
                     if url not in urladded:
                         urls.append((sectitle,title,url,None))
                         urladded.add(url)
-                                
+
         if len(urls) == 0:
             self.log.warn('len of urls is zero.')
         return urls
