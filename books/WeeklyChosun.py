@@ -25,22 +25,6 @@ def fetch_cover(self):
     data = urllib.urlopen(cover).read()
     return data
 
-def FindHo():
-    hopage = 'http://weekly.chosun.com/client/contents/lst.asp'
-    opener = URLOpener(self.host, timeout=90)
-    result = opener.open(hopage)
-    content = result.content.decode('euc-kr')
-    if result.status_code != 200:
-        self.log.warn('fetching hopage failed:%s'%hopage)
-    soup = BeautifulSoup(content, "lxml")
-    location=soup.find('div', id='Location')
-    edition=location.find('div', class_='edition')
-    ho = string_of_tag(edition).strip()
-    if ho.startswith('['):
-        ho=ho[1:5]
-    else:
-        self.log.warn('Fetching ho failed.')
-    return ho
     
 class ChosunWeekly(BaseFeedBook):
     title                 =  u'周刊朝鲜'
@@ -65,6 +49,23 @@ class ChosunWeekly(BaseFeedBook):
 
     def ParseFeedUrls(self):
         #return list like [(section,title,url,desc),..]
+        def FindHo():
+            hopage = 'http://weekly.chosun.com/client/contents/lst.asp'
+            opener = URLOpener(self.host, timeout=90)
+            result = opener.open(hopage)
+            content = result.content.decode('euc-kr')
+            if result.status_code != 200:
+                self.log.warn('fetching hopage failed:%s'%hopage)
+            soup = BeautifulSoup(content, "lxml")
+            location=soup.find('div', id='Location')
+            edition=location.find('div', class_='edition')
+            ho = string_of_tag(edition).strip()
+            if ho.startswith('['):
+                ho=ho[1:5]
+            else:
+                self.log.warn('Fetching ho failed.')
+            return ho
+        
         mainhead = 'http://weekly.chosun.com/client/news/alllst.asp?nHo='
         urls = []
         urladded = set()
