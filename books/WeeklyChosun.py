@@ -21,7 +21,7 @@ def fetch_cover(self):
     if cover.startswith('/'):
         cover = mainurl + cover
     else:
-        cover = 'http://weekly.chosun.com'+ cover
+        cover = 'http://weekly.chosun.com/'+ cover
     data = urllib.urlopen(cover).read()
     return data
 
