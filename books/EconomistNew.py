@@ -106,20 +106,20 @@ class TheEconomist(BaseFeedBook):
 #            if div is None:
 #                self.log.warn('This part skipped.')
 #                continue
-        thisweek = soup.find('div', class_='layout-weekly-edition-wtw'):
-            if thisweek:
-                h2 = thisweek.find('h2')
-                sectitle = string_of_tag(h2).strip()
-                if not sectitle:
-                    self.log.warn('No section title for the world this week')
-                for week in thisweek.find_all('a', href=True):
-                    title = string_of_tag(week).strip()
-                    url = week['href']
-                    if url.startswith(r'/'):
-                        url = 'https://www.economist.com' + url
-                    urls.append((sectitle,title,url,None))
-            else:
-                self.log.warn('The world this week not found.')
+        thisweek = soup.find('div', class_='layout-weekly-edition-wtw')
+        if thisweek:
+            h2 = thisweek.find('h2')
+            sectitle = string_of_tag(h2).strip()
+            if not sectitle:
+                self.log.warn('No section title for the world this week')
+            for week in thisweek.find_all('a', href=True):
+                title = string_of_tag(week).strip()
+                url = week['href']
+                if url.startswith(r'/'):
+                    url = 'https://www.economist.com' + url
+                urls.append((sectitle,title,url,None))
+        else:
+            self.log.warn('The world this week not found.')
                 
         for section in soup.find_all(class_= lambda value: value and value.startswith('layout-weekly-edition-section')):
             h2 = section.find('h2')
