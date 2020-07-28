@@ -45,22 +45,28 @@ class Reuters(BaseFeedBook):
             
         content = result.content.decode(self.feed_encoding)
         soup = BeautifulSoup(content, "lxml")
+        soup = soup.find(div, class_='column1 col col-10')
+        if not soup:
+            self.log.warn('Failed to find column1 col col-10 for ReutersSK.')
         
         #开始解析
-        section=soup.find('div', attrs={'class':'topStory'})
-        toparticle = section.find('a', href=True)
-        if toparticle is None:
-            self.log.warn('Top news not found')
-        toptitle = string_of_tag(toparticle).strip()
-        if not toptitle:
-            self.log.warn('No top story title')
-        url = toparticle['href']
-        if url.startswith(r'/'):
-            url = 'http://www.reuters.com' + url
-        urls.append(('Reuters South Korea',toptitle,url,None))
+        section=soup.find('div', class_='story-content')
+        if section:
+            toparticle = section.find('a', href=True)
+            if toparticle is None:
+                self.log.warn('Top news not found')
+            toptitle = string_of_tag(toparticle).strip()
+            if not toptitle:
+                self.log.warn('No top story title')
+            url = toparticle['href']
+            if url.startswith(r'/'):
+                url = 'http://www.reuters.com' + url
+            urls.append(('Reuters South Korea',toptitle,url,None))
+        else:
+            self.log.warn('Top story not found for ReutersSK.')
             
-        sect=soup.find('div', id='moreSectionNews')
-        for feature in sect.find_all('div', attrs={'class':'feature'}):
+        sect=section.find_next('section', class_='module-content')
+        for feature in sect.find_all('div', attrs={'class':'story-content'}):
             article = feature.find('a', href=True)
             title = string_of_tag(article).strip()
             url = article['href']
