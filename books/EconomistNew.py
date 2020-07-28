@@ -106,20 +106,21 @@ class TheEconomist(BaseFeedBook):
 #            if div is None:
 #                self.log.warn('This part skipped.')
 #                continue
-        thisweek = soup.find('div', class_= lambda value: value and value.startswith('layout-weekly-edition-wtw')):
+        thisweek = soup.find('div', class_='layout-weekly-edition-wtw'):
             if thisweek:
                 h2 = thisweek.find('h2')
                 sectitle = string_of_tag(h2).strip()
                 if not sectitle:
                     self.log.warn('No section title for the world this week')
-                for week in thisweek.find_all('a', class_='weekly-edition-wtw__link'):
+                for week in thisweek.find_all('a', href=True):
                     title = string_of_tag(week).strip()
                     url = week['href']
                     if url.startswith(r'/'):
                         url = 'https://www.economist.com' + url
                     urls.append((sectitle,title,url,None))
             else:
-                self.log.warn('The world this week not found.')                   
+                self.log.warn('The world this week not found.')
+                
         for section in soup.find_all(class_= lambda value: value and value.startswith('layout-weekly-edition-section')):
             h2 = section.find('h2')
             sectitle = string_of_tag(h2).strip()
@@ -129,7 +130,7 @@ class TheEconomist(BaseFeedBook):
             if 'financial indicators' in sectitle:
                 continue
             #self.log.info('Found section: %s' % section_title)
-            articles = []
+#            articles = []
             for node in section.find_all('a', href=True, class_= lambda value: value and value.startswith('headline-link')):
                 spans = node.find_all('span')
                 if len(spans) == 2: 
