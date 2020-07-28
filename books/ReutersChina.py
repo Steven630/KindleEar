@@ -34,7 +34,7 @@ class ReutersChinaN(BaseFeedBook):
     
     def ParseFeedUrls(self):
         #return lists like [(section,title,url,desc),..]
-        main = 'https://www.reuters.com/places/china'
+        main = 'https://www.reuters.com/news/archive/china'
         urls = []
         urladded = set()
         opener = URLOpener(self.host, timeout=90)
@@ -47,24 +47,36 @@ class ReutersChinaN(BaseFeedBook):
         soup = BeautifulSoup(content, "lxml")
         
         #开始解析           
-        for item in soup.find_all('div', attrs={'class':'FeedItem_content-container'}):
-            timestamp = item.find('span', attrs={'class':'FeedItemMeta_date-updated'})
+        sect=soup.find('section', attrs={'class':'module-content'})
+        for feature in sect.find_all('div', attrs={'class':'story-content'}):
+            timestamp = feature.find('span', attrs={'class':'timestamp'})
             if not timestamp:
                 continue
             timestamp = string_of_tag(timestamp).strip()
             #今天的文章
-            if 'hour' not in timestamp and 'minute' not in timestamp:
+            if 'EDT' in timestamp or 'EST' in timestamp:
+                delta=0
+                if 'EST' in timestamp:
+                    isEST=True
+            else:
+                pubtime = datetime.datetime.strptime(timestamp, '%b %d %Y').date()
+                #默认为EDT
+                tnow = datetime.datetime.utcnow()-datetime.timedelta(hours=4)
+                currentmonth= tnow.month
+                if currentmonth in [1, 2, 12] or isEST:
+                    tnow = datetime.datetime.utcnow()-datetime.timedelta(hours=5)
+                tnow = tnow.date()
+                delta=(tnow-pubtime).days
+            if self.oldest_article > 0 and delta > self.oldest_article:
                 continue
-            h2 = item.find('h2')
-            article = h2.find('a', href=True)
+            article = feature.find('a', href=True)
             title = string_of_tag(article).strip()
             url = article['href']
             if url.startswith(r'/'):
                 url = 'https://www.reuters.com' + url
                 #self.log.info('\tFound article:%s' % title)
-            if url not in urladded:
-                urls.append(('Reuters China',title,url,None))
-                urladded.add(url)
+            urls.append(('Reuters China',title,url,None))
+                                
         if len(urls) == 0:
             self.log.warn('Failed to find articles for Reuters China.')
         return urls
