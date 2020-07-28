@@ -45,7 +45,7 @@ class Reuters(BaseFeedBook):
             
         content = result.content.decode(self.feed_encoding)
         soup = BeautifulSoup(content, "lxml")
-        soup = soup.find(div, class_='column1 col col-10')
+        soup = soup.find('div', class_='column1 col col-10')
         if not soup:
             self.log.warn('Failed to find column1 col col-10 for ReutersSK.')
         
