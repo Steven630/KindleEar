@@ -106,7 +106,7 @@ class TheEconomist(BaseFeedBook):
 #            if div is None:
 #                self.log.warn('This part skipped.')
 #                continue
-        for section in soup.find_all(class_= lambda value: value and value.startswith('layout-weekly-edition')):
+        for section in soup.find_all(class_= lambda value: value and value.startswith('layout-weekly-edition-section') or value.startswith('layout-weekly-edition-wtw')):
             h2 = section.find('h2')
             sectitle = string_of_tag(h2).strip()
             if not sectitle:
