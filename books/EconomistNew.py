@@ -106,7 +106,21 @@ class TheEconomist(BaseFeedBook):
 #            if div is None:
 #                self.log.warn('This part skipped.')
 #                continue
-        for section in soup.find_all(class_= lambda value: value and value.startswith('layout-weekly-edition-section') or value.startswith('layout-weekly-edition-wtw')):
+        thisweek = soup.find('div', class_= lambda value: value and value.startswith('layout-weekly-edition-wtw')):
+            if thisweek:
+                h2 = thisweek.find('h2')
+                sectitle = string_of_tag(h2).strip()
+                if not sectitle:
+                    self.log.warn('No section title for the world this week')
+                for week in thisweek.find_all('a', class_='weekly-edition-wtw__link'):
+                    title = string_of_tag(week).strip()
+                    url = week['href']
+                    if url.startswith(r'/'):
+                        url = 'https://www.economist.com' + url
+                    urls.append((sectitle,title,url,None))
+            else:
+                self.log.warn('The world this week not found.')                   
+        for section in soup.find_all(class_= lambda value: value and value.startswith('layout-weekly-edition-section')):
             h2 = section.find('h2')
             sectitle = string_of_tag(h2).strip()
             if not sectitle:
@@ -116,7 +130,7 @@ class TheEconomist(BaseFeedBook):
                 continue
             #self.log.info('Found section: %s' % section_title)
             articles = []
-            for node in section.find_all('a', href=True, class_= lambda value: value and value.startswith('headline-link') or value.startswith('weekly-edition-wtw')):
+            for node in section.find_all('a', href=True, class_= lambda value: value and value.startswith('headline-link')):
                 spans = node.find_all('span')
                 if len(spans) == 2: 
                     title = u'{}: {}'.format(*map(string_of_tag, spans))
@@ -134,9 +148,9 @@ class TheEconomist(BaseFeedBook):
                 if url.startswith(r'/'):
                     url = 'https://www.economist.com' + url
                     #self.log.info('\tFound article:%s' % title)
-                    if url not in urladded:
-                        urls.append((sectitle,title,url,None))
-                        urladded.add(url)
+                if url not in urladded:
+                    urls.append((sectitle,title,url,None))
+                    urladded.add(url)
                                 
         if len(urls) == 0:
             self.log.warn('len of urls is zero.')
