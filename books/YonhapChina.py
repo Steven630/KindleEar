@@ -24,17 +24,17 @@ class YonhapChina(BaseFeedBook):
         h1 { font-size: large  }
         '''
     keep_only_tags = [
-#                      dict(name='h1'),
+                      dict(name='h1'),
                       dict(id='articleWrap'),
-                      dict(attrs={'class':['article-wrap article-wrap2 article-font3','article-wrap']})
+                      dict(attrs={'class':['story-news article']})
 #                       dict(name='div', attrs={'itemprop':['articleBody']})
 #                      dict(id='article-body-blocks')
                      ]
     remove_classes = ['share-info','link-info','article-ad-box','adrs','article-sns-md','cprgt','pblsh','article-sns-md sns-md03',
-                      'img-info','banner-0-wrap','blind','article-sns-md sns-md04'
+                      'img-info','banner-0-wrap','blind','article-sns-md sns-md04','adrs txt-copyright'
                      ]
     remove_tags_after = [ dict(attrs={'class':[
-            'pblsh'
+            'adrs txt-copyright'
     ]})]
     
     
