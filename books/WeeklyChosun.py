@@ -35,7 +35,7 @@ class ChosunWeekly(BaseFeedBook):
     mastheadfile          = "mh_economist.gif" 
 #    coverfile             = "cv_economist.jpg"
     coverfile             =  fetch_cover
-    deliver_days          = ['Wednesday']
+    deliver_days          = ['Thursday']
     deliver_times         = [14]
     fulltext_by_readability = False
     keep_image            = True
