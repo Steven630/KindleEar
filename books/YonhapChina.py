@@ -43,7 +43,7 @@ class YonhapChina(BaseFeedBook):
         mainhead = 'https://www.yna.co.kr/international/china/'
         num =1
         urls = []
-        calllitaday = False
+        callitaday = False
         koreanow = datetime.datetime.utcnow()+ datetime.timedelta(hours=9)
         koreadate = koreanow.date()
         year = koreanow.year
