@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 from bs4 import BeautifulSoup
 from base import BaseFeedBook, URLOpener, string_of_tag
+import datetime
 
 def getBook():
     return YonhapChina
@@ -49,19 +50,29 @@ class YonhapChina(BaseFeedBook):
         content = result.content.decode(self.page_encoding)
         soup = BeautifulSoup(content, "lxml")
         
+        koreanow = datetime.datetime.utcnow()+ datetime.timedelta(hours=9)
+        koreadate = koreanow.date()
+        year = koreanow.year
         #开始解析
-        section = soup.find('div', attrs={'class':'headlines headline-list'})
-        for article in section.find_all('li', attrs={'class':'section02'}):
+        
+        section = soup.find('div', class_='list-type038')
+        for article in section.find_all('div', class_='item-box01'):
             if article is None:
                 self.log.warn('This article not found')
                 continue
-            ptime= article.find('span', attrs={'class':'p-time'})
+            ptime= article.find('span', class_='txt-time')
             if ptime:
                 ptime= string_of_tag(ptime).strip()
-            strong = article.find('strong', attrs={'class':'news-tl'})
-            a = strong.find('a', href=True)
+                pdate=ptime[0:5] #只要07-30这样的日期
+                pdate= str(year) + '-'+ pdate #加上年份，否则默认1900年
+                pdate = datetime.datetime.strptime(pdate, '%Y-%m-%d').date()
+                delta=(koreadate-pdate).days
+                if self.oldest_article > 0 and delta >= self.oldest_article:
+                    continue
+            newscon = article.find('div', class_='newscon')
+            a = newscon.find('a', href=True)
             atitle = string_of_tag(a).strip()
-            atitle = atitle + ' ' + ptime
+            atitle = atitle + ' ' + ptime[6:] #只保留点钟
             url = a['href']
             if url.startswith('/'):
                 url= 'https:'+ url
