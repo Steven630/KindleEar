@@ -69,7 +69,7 @@ class YonhapChina(BaseFeedBook):
                 delta=(koreadate-pdate).days
                 if self.oldest_article > 0 and delta >= self.oldest_article:
                     continue
-            newscon = article.find('div', class_='newscon')
+            newscon = article.find('div', class_='news-con')
             a = newscon.find('a', href=True)
             atitle = string_of_tag(a).strip()
             atitle = atitle + ' ' + ptime[6:] #只保留点钟
