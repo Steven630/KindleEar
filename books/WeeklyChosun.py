@@ -13,7 +13,7 @@ def fetch_cover(self):
     opener = URLOpener(None, timeout=180)
 #   opener = URLOpener(self.host, timeout=90)
     result = opener.open(mainurl)
-    content = result.content.decode('euc-kr')
+    content = result.content.decode('euc-kr', errors='ignore')
     soup = BeautifulSoup(content, "lxml")
     div = soup.find('div', class_='box_cover_new')
     img = div.find('img', src=True)
@@ -27,8 +27,8 @@ def fetch_cover(self):
 
     
 class ChosunWeekly(BaseFeedBook):
-    title                 =  u'周刊朝鲜'
-    description           =  u'每周三投递'
+    title                 =  u'주간조선'
+    description           =  u'지난 40년간 예리한 분석과 시의적절한 기획으로 국내 시사주간지의 새 지평을 열었다는 평가를 받고 있습니다.'
     language              = 'ko'
     feed_encoding         = "euc-kr"
     page_encoding         = "euc-kr"
