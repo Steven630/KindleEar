@@ -53,7 +53,7 @@ class ChosunWeekly(BaseFeedBook):
             hopage = 'http://weekly.chosun.com/client/contents/lst.asp'
             opener = URLOpener(self.host, timeout=90)
             result = opener.open(hopage)
-            content = result.content.decode('euc-kr')
+            content = result.content.decode('euc-kr', errors='ignore')
             if result.status_code != 200:
                 self.log.warn('fetching hopage failed:%s'%hopage)
             soup = BeautifulSoup(content, "lxml")
@@ -76,7 +76,7 @@ class ChosunWeekly(BaseFeedBook):
         if result.status_code != 200:
             self.log.warn('Fetching TOC failed:%s'%main)
             return []
-        content = result.content.decode(self.feed_encoding)
+        content = result.content.decode(self.feed_encoding, errors='ignore')
         soup = BeautifulSoup(content, "lxml")
 
         #开始解析
