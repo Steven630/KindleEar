@@ -32,7 +32,7 @@ class ChosunWeekly(BaseFeedBook):
     language              = 'ko'
     feed_encoding         = "euc-kr"
     page_encoding         = "euc-kr"
-    mastheadfile          = "mh_economist.gif" 
+    mastheadfile          = "mh_weeklychosun.png" 
 #    coverfile             = "cv_economist.jpg"
     coverfile             =  fetch_cover
     deliver_days          = ['Thursday']
