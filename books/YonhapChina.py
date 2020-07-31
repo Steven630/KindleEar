@@ -32,7 +32,7 @@ class YonhapChina(BaseFeedBook):
 #                      dict(id='article-body-blocks')
                      ]
     remove_classes = ['share-info','link-info','article-ad-box','adrs','article-sns-md','cprgt','pblsh','article-sns-md sns-md03',
-                      'img-info','banner-0-wrap','blind','article-sns-md sns-md04','adrs txt-copyright'
+                      'img-info','banner-0-wrap','blind','article-sns-md sns-md04','adrs txt-copyright','comp-box youtube-group'
                      ]
     remove_tags_after = [ dict(attrs={'class':[
             'adrs txt-copyright'
@@ -48,7 +48,7 @@ class YonhapChina(BaseFeedBook):
         koreanow = datetime.datetime.utcnow()+ datetime.timedelta(hours=9)
 #        koreadate = koreanow.date()
         year = koreanow.year
-        mydelta = datetime.timedelta(hours=24, minutes=5) #多5分钟
+        mydelta = datetime.timedelta(hours=24, minutes=10) 
         
         while not callitaday:
             main = mainhead + str(num)
@@ -80,7 +80,7 @@ class YonhapChina(BaseFeedBook):
                 newscon = article.find('div', class_='news-con')
                 a = newscon.find('a', href=True)
                 atitle = string_of_tag(a).strip()
-                atitle = atitle + ' ' + str(ptime)
+                atitle = atitle + ' ' + str(ptime)[5:-3]
                 url = a['href']
                 if url.startswith('/'):
                     url= 'https:'+ url
