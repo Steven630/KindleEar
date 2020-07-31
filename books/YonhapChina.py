@@ -14,8 +14,8 @@ class YonhapChina(BaseFeedBook):
     language              = 'ko'
     feed_encoding         = "utf-8"
     page_encoding         = "utf-8-sig"
-    mastheadfile          = "mh_economist.gif" 
-    coverfile             = "cv_economist.jpg"
+    mastheadfile          = "mh_yna.jpg" 
+    coverfile             = "cv_yna.jpg"
     oldest_article        = 1
     fulltext_by_readability = False
     keep_image            =  False
