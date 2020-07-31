@@ -80,7 +80,7 @@ class YonhapChina(BaseFeedBook):
                 newscon = article.find('div', class_='news-con')
                 a = newscon.find('a', href=True)
                 atitle = string_of_tag(a).strip()
-                atitle = atitle + ' ' + ptime
+                atitle = atitle + ' ' + str(ptime)
                 url = a['href']
                 if url.startswith('/'):
                     url= 'https:'+ url
