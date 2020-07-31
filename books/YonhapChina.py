@@ -22,10 +22,11 @@ class YonhapChina(BaseFeedBook):
     extra_css      = '''
         p { font-size: 1em; font-weight: 600;  text-align: justify;  line-height: 1.5 }
         h1 { font-size: large  }
+        .txt-desc {font-style: italic}
         '''
     keep_only_tags = [
                       dict(name='h1'),
-                      dict(id='articleWrap'),
+#                      dict(id='articleWrap'),
                       dict(attrs={'class':['story-news article']})
 #                       dict(name='div', attrs={'itemprop':['articleBody']})
 #                      dict(id='article-body-blocks')
@@ -45,8 +46,9 @@ class YonhapChina(BaseFeedBook):
         urls = []
         callitaday = False
         koreanow = datetime.datetime.utcnow()+ datetime.timedelta(hours=9)
-        koreadate = koreanow.date()
+#        koreadate = koreanow.date()
         year = koreanow.year
+        mydelta = datetime.timedelta(hours=24, minutes=5) #多5分钟
         
         while not callitaday:
             main = mainhead + str(num)
@@ -67,17 +69,18 @@ class YonhapChina(BaseFeedBook):
                 ptime= article.find('span', class_='txt-time')
                 if ptime:
                     ptime= string_of_tag(ptime).strip()
-                    pdate=ptime[0:5] #只要07-30这样的日期
-                    pdate= str(year) + '-'+ pdate #加上年份，否则默认1900年
-                    pdate = datetime.datetime.strptime(pdate, '%Y-%m-%d').date()
-                    delta=(koreadate-pdate).days
-                    if self.oldest_article > 0 and delta >= self.oldest_article:
+#                    pdate=ptime[0:5] #只要07-30这样的日期
+                    ptime= str(year) + '-'+ ptime #加上年份，否则默认1900年
+                    ptime = datetime.datetime.strptime(ptime, '%Y-%m-%d %H:%M')
+                    delta= koreanow - ptime
+#                    if self.oldest_article > 0 and delta >= self.oldest_article:
+                    if delta> mydelta:
                         callitaday = True
                         break #因为是按时间顺序的
                 newscon = article.find('div', class_='news-con')
                 a = newscon.find('a', href=True)
                 atitle = string_of_tag(a).strip()
-                atitle = atitle + ' ' + ptime[6:] #只保留点钟
+                atitle = atitle + ' ' + ptime
                 url = a['href']
                 if url.startswith('/'):
                     url= 'https:'+ url
