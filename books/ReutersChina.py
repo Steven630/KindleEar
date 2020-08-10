@@ -3,6 +3,7 @@
 from bs4 import BeautifulSoup
 from base import BaseFeedBook, URLOpener, string_of_tag
 import re
+import datetime
 
 def getBook():
     return ReutersChinaN
