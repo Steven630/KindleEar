@@ -47,7 +47,8 @@ class ReutersChinaN(BaseFeedBook):
         content = result.content.decode(self.feed_encoding)
         soup = BeautifulSoup(content, "lxml")
         
-        #开始解析           
+        #开始解析
+        isEST = False
         sect=soup.find('section', attrs={'class':'module-content'})
         for feature in sect.find_all('div', attrs={'class':'story-content'}):
             timestamp = feature.find('span', attrs={'class':'timestamp'})
