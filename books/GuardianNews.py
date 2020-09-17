@@ -21,7 +21,7 @@ class Guardian(BaseFeedBook):
 #            ('NYT South Korea', 'http://www.nytimes.com/svc/collections/v1/publish/www.nytimes.com/topic/destination/south-korea/rss.xml'),
 #            ('NYT North Korea', 'http://www.nytimes.com/svc/collections/v1/publish/www.nytimes.com/topic/destination/north-korea/rss.xml'),
            ]
-    fulltext_by_readability = False
+    fulltext_by_readability = True
     keep_image = False
     extra_css      = '''
         figcaption {font-style: italic}
