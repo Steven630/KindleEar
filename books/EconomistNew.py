@@ -9,7 +9,7 @@ def getBook():
     
 
 def fetch_cover(self):
-    mainurl = 'https://www.economist.com/weeklyedition'
+    mainurl = 'https://www.economist.com/weeklyedition/archive'
     opener = URLOpener(None, timeout=180)
 #    opener = URLOpener(self.host, timeout=90)
     result = opener.open(mainurl)
@@ -17,13 +17,13 @@ def fetch_cover(self):
 #    content = result.content.decode(self.feed_encoding)
     soup = BeautifulSoup(content, "lxml")
 #    wrapper = soup.find('div', attrs={'class':'print-edition__cover-wrapper'})
-    header = soup.find('div', class_='weekly-edition-header__image')
-#    div=wrapper.find('div', class_='component-image print-edition__cover-widget__image')
-    img = header.find('img', src=True)
-    cover = img.get('src')
+    header = soup.find('div', class_='edition-teaser__image')
+    if header is not None:
+        img = header.find('img', src=True)
+        cover = img.get('src')
 #    if cover.startswith('/'):
 #        cover = 'http://www.economist.com' + cover
-    data = urllib.urlopen(cover).read()
+        data = urllib.urlopen(cover).read()
     return data
 
 class TheEconomist(BaseFeedBook):
