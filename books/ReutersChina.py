@@ -25,12 +25,12 @@ class ReutersChinaN(BaseFeedBook):
     
     keep_only_tags = [
                       dict(name='h1'),
-                      dict(attrs={'class':'StandardArticleBody_body'})
+                      dict(attrs={'class':'ArticleBodyWrapper'})
                      ]
     remove_classes = [ re.compile('^DPSlot'), re.compile('^Attribution'), 'StandardArticleBody_trustBadgeContainer_1gqgJ','Slideshow_count_3OPtf',
                        re.compile('^RelatedCoverage'), re.compile('^Slideshow'), re.compile('^Video_container'), re.compile('^PrimaryAsset_container'),
                        re.compile('^trustBadgeContainer'), re.compile('^inline-container'), re.compile('^related-coverage'), 
-                       re.compile('^attribution_'),'StandardArticleBody_trustBadgeContainer'
+                       re.compile('^attribution_'),'StandardArticleBody_trustBadgeContainer', re.compile('^TrustBadge')
                      ]
     
     def ParseFeedUrls(self):
