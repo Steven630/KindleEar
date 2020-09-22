@@ -101,7 +101,6 @@ class Worker(BaseHandler):
             pubtype = 'periodical:magazine:KindleEar'
             
         setMetaData(oeb, bookTitle, book4meta.language, local_time("%Y-%m-%d",tz), pubtype=pubtype)
-        #setMetaData(oeb, bookTitle, book4meta.language, local_time("%Y-%m-%d",tz), pubtype=pubtype, creator=local_time("%Y-%m-%d",tz)) # modified
         oeb.container = ServerContainer(main.log)
         
         #guide
