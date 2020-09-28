@@ -19,8 +19,8 @@ def fetch_cover(self):
 #    wrapper = soup.find('div', attrs={'class':'print-edition__cover-wrapper'})
     header = soup.find('div', class_='edition-teaser__image')
     if header is not None:
-        img = header.find('img', src=True)
-        cover = img.get('src')
+        img = header.find('img', srcset=True)
+        cover = img['srcset'].split(',')[-1].split()[0]
 #    if cover.startswith('/'):
 #        cover = 'http://www.economist.com' + cover
         data = urllib.urlopen(cover).read()
