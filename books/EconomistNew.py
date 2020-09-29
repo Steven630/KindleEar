@@ -9,7 +9,7 @@ def getBook():
     
 
 def fetch_cover(self):
-    mainurl = 'https://www.economist.com/'
+    mainurl = 'https://www.economist.com'
     opener = URLOpener(None, timeout=180)
 #    opener = URLOpener(self.host, timeout=90)
     result = opener.open(mainurl)
@@ -19,12 +19,16 @@ def fetch_cover(self):
 #    wrapper = soup.find('div', attrs={'class':'print-edition__cover-wrapper'})
     div = soup.find('div', class_='current-edition__cover')
     if div is not None:
+        self.log.warn('Div found.')
         img = div.find('img', src=True)
         cover = img.get('src')
 #        cover = img['srcset'].split(',')[-1].split()[0]
 #    if cover.startswith('/'):
 #        cover = 'http://www.economist.com' + cover
         data = urllib.urlopen(cover).read()
+    else:
+        link = 'https://github.com/Steven630/KindleEar/blob/master/images/cv_economist.jpg'
+        data = urllib.urlopen(link).read()
     return data
 
 class TheEconomist(BaseFeedBook):
