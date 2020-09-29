@@ -22,6 +22,10 @@ def fetch_cover(self):
         self.log.warn('Div found.')
         img = div.find('img', src=True)
         cover = img.get('src')
+        if cover:
+            self.log.warn('Cover: ' + cover)
+        else:
+            self.log.warn('No cover.')
         opener = URLOpener()
         result = opener.open(cover)
         if result.status_code == 200 and result.content:
