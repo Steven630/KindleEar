@@ -22,14 +22,17 @@ def fetch_cover(self):
         self.log.warn('Div found.')
         img = div.find('img', src=True)
         cover = img.get('src')
+        opener = URLOpener()
+        result = opener.open(cover)
+        if result.status_code == 200 and result.content:
+            return result.content
+        else:
+            raise Exception('Failed to fetch cover for TE.')
 #        cover = img['srcset'].split(',')[-1].split()[0]
 #    if cover.startswith('/'):
 #        cover = 'http://www.economist.com' + cover
-        data = urllib.urlopen(cover).read()
-    else:
-        link = 'https://github.com/Steven630/KindleEar/blob/master/images/cv_economist.jpg'
-        data = urllib.urlopen(link).read()
-    return data
+#        data = urllib.urlopen(cover).read()
+#    return data
 
 class TheEconomist(BaseFeedBook):
     title                 = 'The Economist Web'
