@@ -129,7 +129,8 @@ class Worker(BaseHandler):
                             imgMime = r"image/" + imgType
                         else:
                             main.log.warn(u'content of cover is invalid : [%s].' % bookTitle)
-                            imgData = None
+ #                           imgData = None
+                            imgMime = 'image/jpeg'
                 except:
                     main.log.exception(
                         u"Failed to fetch cover for book [%s]" % bookTitle
