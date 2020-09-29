@@ -68,7 +68,7 @@ class TheEconomist(BaseFeedBook):
                       'newsletter-form','blog-post__bottom-panel','share-links-header teaser--wrapped latest-updates-panel__container',
                       'latest-updates-panel__article-link blog-post__section newsletter-form blog-post__bottom-panel',
                       ' latest-updates-panel__article-link blog-post__section newsletter-form blog-post__bottom-panel','related-article',
-                      'article__footnote','article__section','ds-share-list','regwall'
+                      'article__footnote','article__section','ds-share-list','regwall','article__aside'
                       ]
 #    remove_ids = ['more-kallery']
     remove_tags = [
