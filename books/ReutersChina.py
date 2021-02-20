@@ -30,7 +30,7 @@ class ReutersChinaN(BaseFeedBook):
     remove_classes = [ re.compile('^DPSlot'), re.compile('^Attribution'), 'StandardArticleBody_trustBadgeContainer_1gqgJ','Slideshow_count_3OPtf',
                        re.compile('^RelatedCoverage'), re.compile('^Slideshow'), re.compile('^Video_container'), re.compile('^PrimaryAsset_container'),
                        re.compile('^trustBadgeContainer'), re.compile('^inline-container'), re.compile('^related-coverage'), 
-                       re.compile('^attribution_'),'StandardArticleBody_trustBadgeContainer', re.compile('^TrustBadge')
+                       re.compile('^attribution_'),'StandardArticleBody_trustBadgeContainer', re.compile('^TrustBadge'),re.compile('^ArticleBody-read-time')
                      ]
     
     def ParseFeedUrls(self):
