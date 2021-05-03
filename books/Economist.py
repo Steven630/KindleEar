@@ -7,7 +7,7 @@ import urllib
 def getBook():
     return TheEconomist
     
-
+'''
 def fetch_cover(self):
     mainurl = 'http://www.economist.com/printedition'
     opener = URLOpener(None, timeout=90)
@@ -24,6 +24,8 @@ def fetch_cover(self):
     data = urllib.urlopen(cover).read()
     return data
 
+'''
+
 class TheEconomist(BaseFeedBook):
     title                 = 'The Economist RSS'
     description           = 'Global news and current affairs from a European perspective, delivered on Friday.'
@@ -31,10 +33,10 @@ class TheEconomist(BaseFeedBook):
     feed_encoding         = "utf-8"
     page_encoding         = "utf-8"
     mastheadfile          = "mh_economist.gif" 
-#    coverfile             = "cv_economist.jpg"
-    coverfile             =  fetch_cover
+    coverfile             = "cv_economist.jpg"
+#    coverfile             =  fetch_cover
     deliver_days          = ['Friday']
-    deliver_times         = [18]
+    deliver_times         = [14]
     fulltext_by_readability = False
     keep_image            = True
     
