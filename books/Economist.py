@@ -49,15 +49,21 @@ class TheEconomist(BaseFeedBook):
                       'atest-updates-panel-card__body','latest-updates-panel-card__title','latest-updates-panel-card__subtitle',
                       'latest-updates-panel-card__time','blog-post__siblings-list-aside ','blog-post__siblings-list-aside',
                       'blog-post__siblings-list-header ','blog-post__siblings-list-header','special-report-header',
-                      'special-report-header-sponser','content_clearfix','column-right','blog-post__asideable-wrapper'
+                      'special-report-header-sponser','content_clearfix','column-right','blog-post__asideable-wrapper',
+                      'newsletter-form','blog-post__bottom-panel','share-links-header teaser--wrapped latest-updates-panel__container',
+                      'latest-updates-panel__article-link blog-post__section newsletter-form blog-post__bottom-panel',
+                      ' latest-updates-panel__article-link blog-post__section newsletter-form blog-post__bottom-panel','related-article',
+                      'article__footnote','article__section','ds-share-list','regwall','article__aside','article-audio-player',
+                      'advert incontent  advert--inline'
                       ]
 #    remove_ids = ['more-kallery']
     remove_tags = [
-            {'name':'script'},{'name':'noscript'},{'name':'aside'}
+            {'name':'script'},{'name':'noscript'},{'name':'aside'},
+            dict(attrs={'aria-label': "Article Teaser"})           
     ]
     keep_only_tags = [{'name':'article'}
                      ]
-    remove_tags_after = [ dict(attrs={'class':['blog-post__foot-note','blog-post__comments-label']})
+    remove_tags_after = [ dict(attrs={'class':['blog-post__foot-note','blog-post__comments-label','blog-post__bottom-panel','article__footnote']})
     ]
     remove_attributes = ['data-reactid']
     feeds = [
