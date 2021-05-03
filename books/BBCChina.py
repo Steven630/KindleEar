@@ -11,7 +11,7 @@ class BBC(BaseFeedBook):
     language              = 'en'
     feed_encoding         = "utf-8"
     page_encoding         = "utf-8"
-    oldest_article        = 1
+    oldest_article        = 2
 #    mastheadfile          = "mh_d5yuansu.gif"
 #    coverfile             = "cv_d5yuansu.jpg"
 #    network_timeout       = 60
@@ -20,7 +20,7 @@ class BBC(BaseFeedBook):
 #            ('NYT South Korea', 'http://www.nytimes.com/svc/collections/v1/publish/www.nytimes.com/topic/destination/south-korea/rss.xml'),
 #            ('NYT North Korea', 'http://www.nytimes.com/svc/collections/v1/publish/www.nytimes.com/topic/destination/north-korea/rss.xml'),
            ]
-    fulltext_by_readability = True
+    fulltext_by_readability = False
     keep_image = False
     extra_css      = '''
         figcaption {font-style: italic}
@@ -30,10 +30,10 @@ class BBC(BaseFeedBook):
         h1 { font-size: large  }
         '''
     keep_only_tags = [
-#                      dict(name='h1'),
+                      dict(name='h1'),
 #                      dict(id='content')
-                      dict(attrs={'class':['story-body']})
-#                       dict(name='div', attrs={'itemprop':['articleBody']})
+#                      dict(attrs={'class':['story-body']})
+                       dict(name='div', attrs={'class':['ssrcss-uf6wea-RichTextComponentWrapper e1xue1i83']})
 #                      dict(id='article-body-blocks')
                      ]
     remove_classes = ['with-extracted-share-icons','off-screen','story-image-copyright','bbccom_advert bbccom_shut',
