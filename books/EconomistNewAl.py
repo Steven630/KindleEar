@@ -95,6 +95,12 @@ class TheEconomistA(BaseFeedBook):
         #链接网页获取一篇文章
         return BaseFeedBook.fetcharticle(self, self.url4forwarder(url), opener, decoder)
     
+    def soupbeforeimage(self, soup):
+        for img in soup.find_all('img'):
+            imgurl = img['src'] if 'src' in img.attrs else ''
+            if imgurl.startswith('http'):
+                img['src'] = self.url4forwarder(imgurl)
+    
     def ParseFeedUrls(self):
         #return list like [(section,title,url,desc),..]
 #        login_url = 'https://my.economist.com/'
