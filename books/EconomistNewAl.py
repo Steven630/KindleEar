@@ -26,9 +26,9 @@ def fetch_cover(self):
         cover = img.get('src')
         if cover:
             self.log.warn('Cover: ' + cover)
-            cover = SHARE_FUCK_GFW_SRV % urllib.quote(cover)
         else:
             self.log.warn('No cover.')
+        cover = SHARE_FUCK_GFW_SRV % urllib.quote(cover)
         opener = URLOpener()
         result = opener.open(cover)
         if result.status_code == 200 and result.content:
@@ -91,9 +91,9 @@ class TheEconomistA(BaseFeedBook):
         #生成经过转发器的URL
         return SHARE_FUCK_GFW_SRV % urllib.quote(url)
     
-    def fetcharticle(self, url, opener, decoder):
+#    def fetcharticle(self, url, opener, decoder):
         #链接网页获取一篇文章
-        return BaseFeedBook.fetcharticle(self, self.url4forwarder(url), opener, decoder)
+#        return BaseFeedBook.fetcharticle(self, self.url4forwarder(url), opener, decoder)
     
     def soupbeforeimage(self, soup):
         for img in soup.find_all('img'):
@@ -147,6 +147,7 @@ class TheEconomistA(BaseFeedBook):
                 url = week['href']
                 if url.startswith(r'/'):
                     url = 'https://www.economist.com' + url
+                url= self.url4forwarder(url)
                 urls.append((sectitle,title,url,None))
         else:
             self.log.warn('The world this week not found.')
@@ -179,6 +180,7 @@ class TheEconomistA(BaseFeedBook):
                 if url.startswith(r'/'):
                     url = 'https://www.economist.com' + url
                     #self.log.info('\tFound article:%s' % title)
+                url= self.url4forwarder(url)
                 if url not in urladded:
                     urls.append((sectitle,title,url,None))
                     urladded.add(url)
