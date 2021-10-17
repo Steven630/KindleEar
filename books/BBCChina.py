@@ -34,8 +34,8 @@ class BBC(BaseFeedBook):
                       dict(name='h1'),
 #                      dict(id='content')
 #                      dict(attrs={'class':['story-body']})
-                       dict(name='div', attrs={'class':[re.compile('^ssrcss-uf6wea-RichTextComponentWrapper'),
-                                                        re.compile('^ssrcss-18snukc-RichTextContainer')]})
+                       dict(name='div', attrs={'class':['ssrcss-1q0x1qg-Paragraph eq5iqo00',
+                                                        'ssrcss-uf6wea-RichTextComponentWrapper e1xue1i86']})
 #                      dict(id='article-body-blocks')
                      ]
     remove_classes = ['with-extracted-share-icons','off-screen','story-image-copyright','bbccom_advert bbccom_shut',
