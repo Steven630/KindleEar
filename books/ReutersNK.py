@@ -24,7 +24,7 @@ class Reuters(BaseFeedBook):
     keep_image            =  False
     keep_only_tags = [
                       dict(name='h1'),
-                      dict(attrs={'class':'ArticleBodyWrapper'})
+                      dict(attrs={'class':'ArticleBodyWrapper','ArticleBody__content___2gQno2 paywall-article'})
                      ]
     remove_classes = [ re.compile('^DPSlot'), re.compile('^Attribution'), 'StandardArticleBody_trustBadgeContainer_1gqgJ','Slideshow_count_3OPtf',
                        re.compile('^RelatedCoverage'), re.compile('^Slideshow'), re.compile('^Video_container'), re.compile('^PrimaryAsset_container'),
