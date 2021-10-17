@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 from base import BaseFeedBook
+import re
 
 def getBook():
     return BBC
@@ -33,7 +34,8 @@ class BBC(BaseFeedBook):
                       dict(name='h1'),
 #                      dict(id='content')
 #                      dict(attrs={'class':['story-body']})
-                       dict(name='div', attrs={'class':['ssrcss-uf6wea-RichTextComponentWrapper e1xue1i83']})
+                       dict(name='div', attrs={'class':[re.compile('^ssrcss-uf6wea-RichTextComponentWrapper'),
+                                                        re.compile('^ssrcss-18snukc-RichTextContainer')]})
 #                      dict(id='article-body-blocks')
                      ]
     remove_classes = ['with-extracted-share-icons','off-screen','story-image-copyright','bbccom_advert bbccom_shut',
