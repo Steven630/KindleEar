@@ -33,10 +33,12 @@ class NYTChina(BaseFeedBook):
         .date {font-size: small}
         .credit {font-size: small}
         .dateline {font-size: small}  
-        .caption {font-style: italic}        
+        .caption {font-style: italic} 
+        figcaption {font-style: italic} 
         h2 { font-size: medium  }
         h4 { font-size: medium; font-weight: bold }
         h1 { font-size: large  }
+        *[id^="article-summary"] {font-weight: bold}
         *[class^="ResponsiveMedia-caption"] {font-style: italic}
         *[class^="elementStyles-printInformation"] {font-size: small}
         *[class^="css-1wtlzrm"] {font-style: italic}
@@ -174,6 +176,7 @@ class NYTChina(BaseFeedBook):
     ]
     remove_tags = [
         dict(name='div', role='toolbar'),
+        dict(name='footer'),
         dict(name='span', string='Image'),
         dict(attrs={'class': [
             'articleFooter',
