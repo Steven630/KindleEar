@@ -17,6 +17,7 @@ class TheEconomist(BaseFeedBook):
 #    coverfile             =  fetch_cover
     deliver_days          = ['Friday']
     deliver_times         = [14]
+    oldest_article        = 6
     fulltext_by_readability = False
     keep_image            = True
     
