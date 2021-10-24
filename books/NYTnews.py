@@ -34,6 +34,7 @@ class NYTChina(BaseFeedBook):
         .credit {font-size: small}
         .dateline {font-size: small}  
         .caption {font-style: italic} 
+        .css-13o4bnb e18f7pbr0 {font-style: italic} 
         figcaption {font-style: italic} 
         h2 { font-size: medium  }
         h4 { font-size: medium; font-weight: bold }
@@ -172,7 +173,9 @@ class NYTChina(BaseFeedBook):
             'story-print-citation supported-by accessibility-ad-header visually-hidden bottom-of-article ad',
             'g-inlineguide',
             'g-inlineguide-container',
-            'css-mdjrty'
+            'css-mdjrty',
+            'css-15uy5yv',
+            'css-1e1s8k7'
     ]
     remove_tags = [
         dict(name='div', role='toolbar'),
