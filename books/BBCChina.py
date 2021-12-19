@@ -34,7 +34,7 @@ class BBC(BaseFeedBook):
                       dict(name='h1'),
 #                      dict(id='content')
 #                      dict(attrs={'class':['story-body']})
-                       dict(name='div', attrs={'class':['ssrcss-1q0x1qg-Paragraph eq5iqo00',
+                       dict(name='div', attrs={'class':[ re.compile('^ssrcss-uf6wea-RichTextComponentWrapper'),
                                                         'ssrcss-uf6wea-RichTextComponentWrapper e1xue1i86']})
 #                      dict(id='article-body-blocks')
                      ]
